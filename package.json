@@ -1,0 +1,14 @@
+{
+  "name": "armadilocat",
+  "version": "1.0.0",
+  "description": "exam project to make a todolist",
+  "main": "server.js",
+  "scripts": {
+    "test": "console.log(hello world);"
+  },
+  "author": "Eddie Jensen",
+  "license": "ISC",
+  "dependencies": {
+    "pg": "^8.5.1"
+  }
+}
