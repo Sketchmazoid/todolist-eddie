@@ -2,8 +2,11 @@
   "name": "armadilocat",
   "version": "1.0.0",
   "description": "exam project to make a todolist",
-  "main": "server.js",
+  "main": "index.js",
+  
   "scripts": {
+    "start": "nodemon index.js",
+    "build": "webpack" ,// This command will automatically run on deployment
     "test": "console.log(hello world);"
   },
   "author": "Eddie Jensen",
