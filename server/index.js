@@ -1,6 +1,7 @@
+const { Router } = require("express");
 const express = require("express");
-const { Pool } = require("pg");
 const path = require('path');
+const { Pool } = require("pg");
 const app = express();
 
 
@@ -8,18 +9,6 @@ const app = express();
 app.use(express.json());//instead of body-parser
 
 const port = 2226;
-
-
-//connects page to postgresql database host
-
-//const pool = new Pool({
-//    user: 'user',
-//    host: 'postgresql-15535-0.cloudclusters.net',
-//    database: 'userList',
-//    password: 'testPass',
-//    port: 15535,
-//}
-//);
 
 
 // here we tell the server that for localhost:2226/ we serve the content of ./../client
@@ -43,6 +32,20 @@ app.get('/users/login',(req, res)=>{
 
 app.get('/users/dashboard',(req, res)=>{
     res.sendFile(path.resolve(__dirname + '/../client/dashboard.html',{user: 'eddie'}));
+});
+
+app.get('/db', async (req,res)=>{
+    try{
+        const client = await Pool.connect();
+        const result = await client.query('SELECT * FROM test_table');
+        const results = {'results': (result) ? result.rows : null};
+        res.render(results);
+        client.release();
+        
+} catch (err){
+    console.error(err);
+    res.send("error" + err);
+}
 });
 
 
