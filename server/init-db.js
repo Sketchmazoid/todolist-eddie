@@ -10,17 +10,17 @@ module.exports = function() {
         email varchar(100),
         phone varchar(50),
         PRIMARY KEY(id)
-      );`).then(() => dbClient.end());
+      );`);
     dbClient.query(`CREATE TABLE IF NOT EXISTS categories (
         id SERIAL,
         name varchar(400),
         user_id integer,
         PRIMARY KEY(id)
-      );`).then(() => dbClient.end());
+      );`);
     dbClient.query(`CREATE TABLE IF NOT EXISTS items (
         id SERIAL,
         body varchar(40),
-        list_id integer,
+        category_id integer,
         PRIMARY KEY(id)
-      );`).then(() => dbClient.end());
+      );`);
 }

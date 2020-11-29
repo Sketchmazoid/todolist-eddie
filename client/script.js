@@ -7,11 +7,21 @@
 //    
 //};
 
-let categories = [{
-    id: 1,
-    name: 'todolist',
-    items: [{ id: 1, body: 'test' }]
-}];
+/*fetch('/mytodolist')
+    .then(res => res.json())
+    .then(data => createCategory(data))*/
+
+
+let categories = [];
+
+fetch('/lists')
+    .then(res => res.json())
+    .then(data => {
+        categories = data;
+        displayCategories();
+    }).catch(err => {
+        console.log(err);
+    });
 
 //creates html elements for the Categories
 const categoriesContainer = document.createElement('div');
@@ -23,16 +33,41 @@ document.querySelector('.lists').appendChild(categoriesContainer);
 //creates a new category
 function createCategory() {
 
+    const category = { name: document.getElementById("category").value, items: [] };
+    fetch('/category', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name: category.name
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log({...category, id: data.id });
+            // we will use the data we already have and add the id returned by the server
+            categories.push({...category, id: data.id });
+            displayCategories();
+        });
+}
+
+/* non psql version
+
+function createCategory() {
+
     // add the category to the categories array
     categories.push({ name: document.getElementById("category").value, items: [] });
 
     displayCategories();
 };
 
+*/
+
 function displayCategories() {
     // empty the container
     categoriesContainer.innerHTML = '';
-
+    console.log("categories", categories);
     const ul = document.createElement('ul');
     // We iterate through all categories, each category will be referred as "c" in the forEach loop
     categories.forEach(c => {
@@ -47,7 +82,7 @@ function displayCategories() {
         // This is the button used to add an item to the category
         const Cbutton = document.createElement('button');
         // adds css identifier to button
-        Cbutton.className = 'newListButton';
+        Cbutton.className = 'newItemButton';
         Cbutton.innerText = '+';
         Cbutton.onclick = addItemOrInput.bind(c); // bind tells the callback function what "this" will refer to
         // Element to display category name
@@ -61,57 +96,37 @@ function displayCategories() {
         categContainer.appendChild(Cname);
         // Display each item in this category
         c.items.forEach(item => {
-            const itemLi = document.createElement('li');
-            itemLi.attributes.id = 'item-' + item.id; // you can later retrieve the id by using split('-')
-            itemLi.innerText = item.body;
-            categItems.appendChild(itemLi);
-            itemLi.appendChild(Cdelete);
-        });
-        // Add the + button at the end of the list
-        categItems.appendChild(Cbutton);
-        // add the items to the category
-        categContainer.appendChild(categItems);
-
-        // add the category to the lists
-
-        // add the category to the lists
-        ul.appendChild(categContainer);
-        //console.log(deleted)
-    });
-
-    categoriesContainer.appendChild(ul);
-}
-
-
-function addItemOrInput(event){
-    fetch(`http://localhost:80/item/${list_id}`,{
-            method: 'PUT',
-            headers:{
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                body: input.value
+                const itemLi = document.createElement('li');
+                itemLi.attributes.id = 'item-' + item.id; // you can later retrieve the id by using split('-')
+                itemLi.innerText = item.body;
+                categItems.appendChild(itemLi);
+                itemLi.appendChild(Cdelete);
             })
-        })
-        .then(res => res.json())
-        .then(data => {
-            renderTodoLists(data,list)
-        })
-    };
+            // add the items to the category
+        categItems.appendChild(Cbutton);
+        // Add the + button at the end of the list
+        categContainer.appendChild(categItems);
+        ul.appendChild(categContainer);
 
-//function addItemOrInput(event) {
-//    // "this" will reference the category instance, and event is the click event
-//    // check if input is present
-//    const input = event.target.parentNode.querySelector('input');
-//    // if input is already here, add an item
-//    if (input) {
-//        newListitem(this, input.value);
-//    } else {
-//        // Input of the category, used to add item
-//        const Cinput = document.createElement('input');
-//        event.target.parentNode.insertBefore(Cinput, event.target);
-//    }
-//}
+        categoriesContainer.appendChild(ul);
+    })
+};
+
+
+function addItemOrInput(event) {
+    // "this" will reference the category instance, and event is the click event
+    // check if input is present
+    const input = event.target.parentNode.querySelector('input');
+    // if input is already here, add an item
+    if (input) {
+        newListitem(this, input.value);
+    } else {
+        // Input of the category, used to add item
+        const Cinput = document.createElement('input');
+        event.target.parentNode.insertBefore(Cinput, event.target);
+
+    }
+}
 
 
 function newListitem(category, item) {

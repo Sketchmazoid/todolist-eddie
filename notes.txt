@@ -23,3 +23,5 @@ and project 2: list etc
 IMPORTANT
 
 clean destructed code, lots of notes so its easy to read
+
+DB_PASSWORD=m9pet123 nodemon index.js
