@@ -10,8 +10,6 @@ app.use(express.json()); //instead of body-parser
 
 const port = process.env.PORT || 8080; // Heroku provides a PORT environment variable, locally we'll listen on port 8080
 
-initDb();
-
 // here we tell the server that for localhost:2226/ we serve the content of ./../client
 app.use("/", express.static(__dirname + '/../client'));
 
@@ -55,6 +53,7 @@ app.get('/db', async(req, res) => {
 //Tell the server to listen on the given port
 module.exports = {
     start: () => {
+        initDb();
         app.listen(port, () => {
             console.log(`App listening on port ${port}`);
         });
