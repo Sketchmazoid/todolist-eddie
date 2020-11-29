@@ -1,4 +1,3 @@
-
 //gets information from input
 //function category(){
 //
@@ -9,8 +8,9 @@
 //};
 
 let categories = [{
+    id: 1,
     name: 'todolist',
-    items: ['item']
+    items: [{ id: 1, body: 'test' }]
 }];
 
 //creates html elements for the Categories
@@ -24,12 +24,12 @@ document.querySelector('.lists').appendChild(categoriesContainer);
 function createCategory() {
 
     // add the category to the categories array
-    categories.push({name: document.getElementById("category").value, items:[]});
-    
+    categories.push({ name: document.getElementById("category").value, items: [] });
+
     displayCategories();
 };
 
-function displayCategories(){
+function displayCategories() {
     // empty the container
     categoriesContainer.innerHTML = '';
 
@@ -62,17 +62,18 @@ function displayCategories(){
         // Display each item in this category
         c.items.forEach(item => {
             const itemLi = document.createElement('li');
-            itemLi.innerText = item;
+            itemLi.attributes.id = 'item-' + item.id; // you can later retrieve the id by using split('-')
+            itemLi.innerText = item.body;
             categItems.appendChild(itemLi);
             itemLi.appendChild(Cdelete);
         });
         // Add the + button at the end of the list
         categItems.appendChild(Cbutton);
         // add the items to the category
-    categContainer.appendChild(categItems);
-        
+        categContainer.appendChild(categItems);
+
         // add the category to the lists
-        
+
         // add the category to the lists
         ul.appendChild(categContainer);
         //console.log(deleted)
@@ -81,12 +82,12 @@ function displayCategories(){
     categoriesContainer.appendChild(ul);
 }
 
-function addItemOrInput(event){
+function addItemOrInput(event) {
     // "this" will reference the category instance, and event is the click event
     // check if input is present
     const input = event.target.parentNode.querySelector('input');
     // if input is already here, add an item
-    if(input){
+    if (input) {
         newListitem(this, input.value);
     } else {
         // Input of the category, used to add item
@@ -144,7 +145,3 @@ one list with an input field where I can fill in list items.
 //}
 //
 //console.log(createNewItem())
-
-
-
-
