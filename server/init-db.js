@@ -1,6 +1,6 @@
 'use strict';
 
-const dbClient = require('./db');
+const dbClient = require('./db-client');
 
 module.exports = function() {
     dbClient.query(`CREATE TABLE IF NOT EXISTS users (

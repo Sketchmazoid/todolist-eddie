@@ -1,6 +1,6 @@
 const express = require("express");
 const path = require('path');
-const dbClient = require('./db');
+const dbClient = require('./db-client');
 const initDb = require('./init-db');
 const app = express();
 
