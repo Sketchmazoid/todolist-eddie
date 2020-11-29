@@ -82,19 +82,36 @@ function displayCategories() {
     categoriesContainer.appendChild(ul);
 }
 
-function addItemOrInput(event) {
-    // "this" will reference the category instance, and event is the click event
-    // check if input is present
-    const input = event.target.parentNode.querySelector('input');
-    // if input is already here, add an item
-    if (input) {
-        newListitem(this, input.value);
-    } else {
-        // Input of the category, used to add item
-        const Cinput = document.createElement('input');
-        event.target.parentNode.insertBefore(Cinput, event.target);
-    }
-}
+
+function addItemOrInput(event){
+    fetch(`http://localhost:80/item/${list_id}`,{
+            method: 'PUT',
+            headers:{
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                body: input.value
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            renderTodoLists(data,list)
+        })
+    };
+
+//function addItemOrInput(event) {
+//    // "this" will reference the category instance, and event is the click event
+//    // check if input is present
+//    const input = event.target.parentNode.querySelector('input');
+//    // if input is already here, add an item
+//    if (input) {
+//        newListitem(this, input.value);
+//    } else {
+//        // Input of the category, used to add item
+//        const Cinput = document.createElement('input');
+//        event.target.parentNode.insertBefore(Cinput, event.target);
+//    }
+//}
 
 
 function newListitem(category, item) {

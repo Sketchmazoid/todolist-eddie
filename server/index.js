@@ -75,12 +75,13 @@ app.get('/lists', (req, res) =>read(userId,res));
 
 
 
-app.post('/lists/:id/item', (req, res) => {
+   app.post("/myTodolist", (req, respond) => {
+    dbClient.query(`INSERT INTO lists(name,user_id) VALUES('${req.body.list}',${userId})`, (err, res) => read(userId,respond))
+  });
+  
     // Here you'll submit an item to a list
     // dbClient.query(INSERT INTO...)
     // Retrieve the list id from our URL path
-    var listId = req.params.id;
-});
 
 app.delete('/item/:id', (req, res) => {
     // endpoint used to delete an item
