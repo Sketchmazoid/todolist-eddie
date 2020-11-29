@@ -32,7 +32,8 @@ function read(id,respond){
         },{})
       )
 
-});
+})
+};
 
 // here we tell the server that for localhost:2226/ we serve the content of ./../client
 app.use("/", express.static(__dirname + '/../client'));
