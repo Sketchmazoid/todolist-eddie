@@ -97,7 +97,7 @@ function displayCategories() {
         // Display each item in this category
         c.items.forEach(item => {
                 const itemLi = document.createElement('li');
-                itemLi.attributes.id = 'item-' + item.id; // you can later retrieve the id by using split('-')
+                itemLi.attributes.id = 'item-' + item.id; //later retrieve the id by using split('-')
                 itemLi.innerText = item.body;
                 categItems.appendChild(itemLi);
                 itemLi.appendChild(Cdelete);

@@ -35,7 +35,7 @@ app.get('/users/dashboard', (req, res) => {
     res.sendFile(path.resolve(__dirname + '/../client/dashboard.html', { user: 'eddie' }));
 });
 
-// You need to fetch the lists and their associates items
+// fetch the lists and their associates items
 app.get('/lists', (req, res) => {
     let categories = [];
     const selectCategoriesQuery = "SELECT * FROM categories";
@@ -57,10 +57,6 @@ app.get('/lists', (req, res) => {
 
     }).catch();
 });
-// Get all the items from the database
-// dbClient.query(...)
-// The SQL SELECT can be made in several ways, you could just get all the rows from the items table and make a join in order to retrieve the list name and then iterate through all the results in order to get an array like the one below
-// You could also get all the lists, and iterate through the lists, and for each one, make another request to SELECT * FROM items WHERE list_id = (the id of the list in the iteration)
 // should return something with this shape:
 /*
 [{
@@ -86,7 +82,7 @@ app.post("/category", (req, respond) => {
     })
 });
 
-// Here you'll submit an item to a list
+// submit an item to a list
 // dbClient.query(INSERT INTO...)
 // Retrieve the list id from our URL path
 
